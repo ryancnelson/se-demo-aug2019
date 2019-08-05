@@ -1,0 +1,1 @@
+docker build -t se-server-rcn . ; docker run --rm  -d --name se-server-rcn se-server-rcn /opt/scytale/bin/scytale-server run ; sleep 3 ; docker exec -it se-server-rcn /opt/scytale/bin/scytale-server bundle show
