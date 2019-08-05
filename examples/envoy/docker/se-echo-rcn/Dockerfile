@@ -1,16 +1,34 @@
-FROM gcr.io/spiffe-io/spire-agent:unstable as spire
+##FROM gcr.io/spiffe-io/spire-agent:unstable as spire
 
 FROM envoyproxy/envoy:v1.10.0
-RUN mkdir -p /opt/spire/conf/agent
-RUN mkdir -p /opt/spire/data/agent
-COPY --from=spire /opt/spire/bin/spire-agent /opt/spire/bin/spire-agent
+RUN mkdir -p /opt/scytale/conf/agent
+RUN mkdir -p /opt/scytale/data/agent
+##COPY --from=spire /opt/spire/bin/spire-agent /opt/spire/bin/spire-agent
 COPY conf/envoy.yaml /etc/envoy/envoy.yaml
 COPY conf/spire-agent.conf /opt/spire/conf/agent/agent.conf
-COPY conf/agent.key.pem /opt/spire/conf/agent/agent.key.pem
-COPY conf/agent.crt.pem /opt/spire/conf/agent/agent.crt.pem
+COPY conf/agent.key.pem /opt/scytale/conf/agent/agent.key.pem
+COPY conf/agent.crt.pem /opt/scytale/conf/agent/agent.crt.pem
 COPY echo-server /usr/local/bin/echo-server
 
+RUN apt-get update
+RUN apt-get install -y vim curl sudo
+
+RUN curl http://download.scytaleio.com/tar/scytale-agent-1.1.0-0-linux-x86_64-glibc.tar.gz > /root/scytale-agent-1.1.0-0-linux-x86_64-glibc.tar.gz
+RUN useradd scytale-agent
+RUN tar -C / -xvf /root/scytale-agent-1.1.0-0-linux-x86_64-glibc.tar.gz
+RUN chown scytale-agent:scytale-agent /opt/scytale/data/agent
+RUN chown scytale-agent:scytale-agent /opt/scytale/sockets/agent
+RUN mkdir /opt/scytale/conf/keys
+RUN chown scytale-agent:scytale-agent /opt/scytale/conf/keys
+RUN chown scytale-agent:scytale-agent /opt/scytale/data
+
+RUN mkdir -p /run/scytale/sockets
+
+COPY conf/scytale-agent.conf /opt/scytale/conf/agent.conf
 
 
-WORKDIR /opt/spire
+
+
+
+WORKDIR /opt/scytale
 CMD /usr/local/bin/envoy -l debug -c /etc/envoy/envoy.yaml --log-path /tmp/envoy.log
