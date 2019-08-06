@@ -15,8 +15,8 @@ RUN useradd scytale-agent
 RUN tar -C / -xvf /root/scytale-agent-1.1.0-0-linux-x86_64-glibc.tar.gz
 RUN chown scytale-agent:scytale-agent /opt/scytale/data/agent
 RUN chown scytale-agent:scytale-agent /opt/scytale/sockets/agent
-RUN mkdir /opt/scytale/conf/keys
-RUN chown scytale-agent:scytale-agent /opt/scytale/conf/keys
+RUN mkdir /opt/scytale/conf/agent/keys
+RUN chown scytale-agent:scytale-agent /opt/scytale/conf/agent/keys
 RUN chown scytale-agent:scytale-agent /opt/scytale/data
 
 RUN mkdir -p /run/scytale/sockets
