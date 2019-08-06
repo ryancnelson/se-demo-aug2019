@@ -1,11 +1,8 @@
-##FROM gcr.io/spiffe-io/spire-agent:unstable as spire
 
 FROM envoyproxy/envoy:v1.10.0
 RUN mkdir -p /opt/scytale/conf/agent
 RUN mkdir -p /opt/scytale/data/agent
-##COPY --from=spire /opt/spire/bin/spire-agent /opt/spire/bin/spire-agent
 COPY conf/envoy.yaml /etc/envoy/envoy.yaml
-COPY conf/spire-agent.conf /opt/spire/conf/agent/agent.conf
 COPY conf/agent.key.pem /opt/scytale/conf/agent/agent.key.pem
 COPY conf/agent.crt.pem /opt/scytale/conf/agent/agent.crt.pem
 COPY echo-server /usr/local/bin/echo-server

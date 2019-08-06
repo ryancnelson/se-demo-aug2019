@@ -3,7 +3,6 @@ FROM envoyproxy/envoy:v1.10.0
 RUN mkdir -p /opt/scytale/conf/agent
 RUN mkdir -p /opt/scytale/data/agent
 COPY conf/envoy.yaml /etc/envoy/envoy.yaml
-##COPY conf/spire-agent.conf /opt/spire/conf/agent/agent.conf
 COPY conf/agent.key.pem /opt/scytale/conf/agent/agent.key.pem
 COPY conf/agent.crt.pem /opt/scytale/conf/agent/agent.crt.pem
 COPY web-server /usr/local/bin/web-server

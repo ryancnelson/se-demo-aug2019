@@ -1,4 +1,3 @@
-#FROM gcr.io/spiffe-io/spire-server:unstable
 FROM ubuntu:latest
 
 RUN apt-get update
@@ -19,12 +18,10 @@ RUN mkdir /opt/scytale/conf/data
 RUN sudo -u scytale-server /opt/scytale/bin/scytale-server || echo "."
 
 
-# Override spire configurations
 COPY conf/server.conf /opt/scytale/conf/server.conf 
 COPY conf/agent-cacert.pem /opt/scytale/conf/server/agent-cacert.pem
 COPY conf/agent-cacert.pem /opt/scytale/conf/rootCA.crt 
 
-##COPY conf/spire-server.conf /opt/spire/conf/server/server.conf
-##COPY conf/agent-cacert.pem /opt/spire/conf/server/agent-cacert.pem
 
-WORKDIR /opt/spire
+WORKDIR /opt/scytale
+CMD /opt/scytale/bin/scytale-server run
