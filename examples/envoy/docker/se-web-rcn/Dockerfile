@@ -21,7 +21,8 @@ RUN chown scytale-agent:scytale-agent /opt/scytale/data
 
 RUN mkdir -p /run/scytale/sockets
 
-COPY conf/scytale-agent.conf /opt/scytale/conf/agent.conf
+COPY conf/scytale-agent.conf /opt/scytale/conf/agent/agent.conf
+RUN mv /opt/scytale/conf/bootstrap_ca.crt /opt/scytale/conf/agent/bootstrap_ca.crt
 
 
 

@@ -78,7 +78,7 @@ static_resources:
     tls_context:
       common_tls_context:
         tls_certificate_sds_secret_configs:
-          - name: "spiffe://domain.test/web-server"
+          - name: "spiffe://trust.mydomainrcn.com/web-server"
             sds_config:
               api_config_source:
                 api_type: GRPC
@@ -89,9 +89,9 @@ static_resources:
           # validate the SPIFFE ID of the server (recommended)
           default_validation_context:
             verify_subject_alt_name:
-              - "spiffe://domain.test/echo-server"
+              - "spiffe://trust.mydomainrcn.com/echo-server"
           validation_context_sds_secret_config:
-            name: "spiffe://domain.test"
+            name: "spiffe://trust.mydomainrcn.com"
             sds_config:
               api_config_source:
                 api_type: GRPC
@@ -115,9 +115,9 @@ static_resources:
           # validate the SPIFFE ID of the server (recommended)
           default_validation_context:
             verify_subject_alt_name:
-              - "spiffe://domain.test/echo-server"
+              - "spiffe://trust.mydomainrcn.com/echo-server"
           validation_context_sds_secret_config:
-            name: "spiffe://domain.test"
+            name: "spiffe://trust.mydomainrcn.com"
             sds_config:
               api_config_source:
                 api_type: GRPC

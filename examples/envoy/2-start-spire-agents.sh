@@ -22,14 +22,14 @@ sleep 30
 
 echo "${bb}Bootstrapping trust between SPIRE agents and SPIRE server...${nn}"
 docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
-	docker-compose exec -T web tee /opt/scytale/conf/bootstrap.crt > /dev/null
+	docker-compose exec -T web tee /opt/scytale/conf/agent/bootstrap.crt > /dev/null
 docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
-	docker-compose exec -T echo tee /opt/scytale/conf/bootstrap.crt > /dev/null
+	docker-compose exec -T echo tee /opt/scytale/conf/agent/bootstrap.crt > /dev/null
 
 # Start up the web server SPIRE agent.
 echo "${bb}Starting web server SPIRE agent...${nn}"
-docker-compose exec -d web sh -c "sudo -u scytale-agent /opt/scytale/bin/scytale-agent run -config /opt/scytale/conf/agent.conf"
+docker-compose exec -d web sh -c "sudo -u scytale-agent /opt/scytale/bin/scytale-agent run -config /opt/scytale/conf/agent/agent.conf"
 
 # Start up the echo server SPIRE agent.
 echo "${bb}Starting echo server SPIRE agent...${nn}"
-docker-compose exec -d echo sh -c "sudo -u scytale-agent /opt/scytale/bin/scytale-agent run -config /opt/scytale/conf/agent.conf"
+docker-compose exec -d echo sh -c "sudo -u scytale-agent /opt/scytale/bin/scytale-agent run -config /opt/scytale/conf/agent/agent.conf"

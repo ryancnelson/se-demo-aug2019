@@ -15,6 +15,9 @@ RUN chown scytale-server:scytale-server /opt/scytale/data/server/keys
 
 RUN mkdir /opt/scytale/conf/data
 
+RUN mv /opt/scytale/conf/bootstrap_ca.key /opt/scytale/conf/server/bootstrap_ca.key
+RUN mv /opt/scytale/conf/bootstrap_ca.crt /opt/scytale/conf/server/bootstrap_ca.crt
+
 RUN sudo -u scytale-server /opt/scytale/bin/scytale-server || echo "."
 
 
