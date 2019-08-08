@@ -23,9 +23,15 @@ read dummy
 echo "${bb}Bootstrapping trust between SPIRE agents and SPIRE server...${nn}"
 docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
 	docker-compose exec -T web tee /opt/scytale/conf/agent/bootstrap.crt > /dev/null
+### also put this bundle into bootstrap_ca.crt , and we'll turn off the upstream biz for now
+docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
+	docker-compose exec -T web tee /opt/scytale/conf/agent/bootstrap_ca.crt > /dev/null
+
 docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
 	docker-compose exec -T echo tee /opt/scytale/conf/agent/bootstrap.crt > /dev/null
-
+### also put this bundle into bootstrap_ca.crt , and we'll turn off the upstream biz for now
+docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
+	docker-compose exec -T echo tee /opt/scytale/conf/agent/bootstrap_ca.crt > /dev/null
 
 
 ##   generate a join token for the webnode:

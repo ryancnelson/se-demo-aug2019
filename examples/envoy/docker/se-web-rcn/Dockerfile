@@ -22,6 +22,7 @@ RUN chown scytale-agent:scytale-agent /opt/scytale/data
 RUN mkdir -p /run/scytale/sockets
 
 COPY conf/scytale-agent.conf /opt/scytale/conf/agent/agent.conf
+### it's very possible this bootstrap_ca.crt in the tarball is bad news... rcn
 RUN mv /opt/scytale/conf/bootstrap_ca.crt /opt/scytale/conf/agent/bootstrap_ca.crt
 
 
