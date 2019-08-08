@@ -49,7 +49,7 @@ echo ${webnodesJT} |
 sleep 2
 docker-compose exec -d web sh -c "sudo -u scytale-agent /opt/scytale/bin/scytale-agent run -config /opt/scytale/conf/agent/agent.conf -joinToken \`cat /tmp/webnodes-jointoken\` "
 sleep 2
-docker-compose exec -d web sh -c "ps -ef | grep -i agent"
+docker-compose exec -T web ps -ef | grep -i agent
 
 # Start up the echo server SPIRE agent.
 echo "${bb}Starting echo server SPIRE agent...${nn}"
@@ -58,4 +58,4 @@ echo ${echonodesJT} |
 sleep 2
 docker-compose exec -d echo sh -c "cat /tmp/echonodes-jointoken"
 docker-compose exec -d echo sh -c "sudo -u scytale-agent /opt/scytale/bin/scytale-agent run -config /opt/scytale/conf/agent/agent.conf -joinToken \`cat /tmp/echonodes-jointoken\` "
-docker-compose exec -d echo sh -c "ps -ef | grep -i agent"
+docker-compose exec -T echo ps -ef | grep -i agent
