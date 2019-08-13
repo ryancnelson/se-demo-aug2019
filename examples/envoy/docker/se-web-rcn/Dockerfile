@@ -31,5 +31,6 @@ RUN mv /opt/scytale/conf/bootstrap_ca.crt /opt/scytale/conf/agent/bootstrap_ca.c
 
 
 WORKDIR /opt/scytale
-CMD /usr/local/bin/envoy -l debug -c /etc/envoy/envoy.yaml --log-path /tmp/envoy.log
+RUN echo /usr/local/bin/envoy -l debug -c /etc/envoy/envoy.yaml --log-path /tmp/envoy.log > /root/start-envoy-command.sh
+CMD sleep 999999999
 
