@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 
 bb=$(tput bold)
 nn=$(tput sgr0)
@@ -19,10 +20,12 @@ read dummy
 ##echo sleeping 30....
 ##sleep 30
 
+echo "hit return to proceed".... ; read dummy
 
 echo "${bb}Bootstrapping trust between SPIRE agents and SPIRE server...${nn}"
 docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
 	docker-compose exec -T web tee /opt/scytale/conf/agent/bootstrap.crt > /dev/null
+
 ### also put this bundle into bootstrap_ca.crt , and we'll turn off the upstream biz for now
 docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
 	docker-compose exec -T web tee /opt/scytale/conf/agent/bootstrap_ca.crt > /dev/null
@@ -33,14 +36,17 @@ docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
 docker-compose exec -T se-server /opt/scytale/bin/scytale-server bundle show |
 	docker-compose exec -T echo tee /opt/scytale/conf/agent/bootstrap_ca.crt > /dev/null
 
+docker-compose exec -T echo sh -c "ls -la /opt/scytale/conf/agent/bootstrap_ca.crt"  
+
 
 ##   generate a join token for the webnode:
-webnodesJT=$(docker-compose exec -T se-server /opt/scytale/bin/scytale-server token generate -spiffeID spiffe://trust.mydomainrcn.com/webnodes  | awk '{print $2}' )
+webnodesJT=$(docker-compose exec -T se-server /opt/scytale/bin/scytale-server token generate -spiffeID spiffe://trust01.ryan.net/webnodes  | awk '{print $2}' )
 
 ##   generate a join token for the echonode:
-echonodesJT=$(docker-compose exec -T se-server /opt/scytale/bin/scytale-server token generate -spiffeID spiffe://trust.mydomainrcn.com/echonodes | awk '{print $2}'   )
+echonodesJT=$(docker-compose exec -T se-server /opt/scytale/bin/scytale-server token generate -spiffeID spiffe://trust01.ryan.net/echonodes | awk '{print $2}'   )
 
 
+echo "hit return to proceed".... ; read dummy
 
 # Start up the web server SPIRE agent.
 echo "${bb}Starting web server SPIRE agent...${nn}"
@@ -49,13 +55,18 @@ echo ${webnodesJT} |
 sleep 2
 docker-compose exec -d web sh -c "sudo -u scytale-agent /opt/scytale/bin/scytale-agent run -config /opt/scytale/conf/agent/agent.conf -joinToken \`cat /tmp/webnodes-jointoken\` "
 sleep 2
+docker-compose exec web sh -c "cat /tmp/webnodes-jointoken"
 docker-compose exec -T web ps -ef | grep -i agent
 
+echo "hit return to proceed".... ; read dummy
 # Start up the echo server SPIRE agent.
 echo "${bb}Starting echo server SPIRE agent...${nn}"
 echo ${echonodesJT} |
 	docker-compose exec -T echo tee /tmp/echonodes-jointoken  >  /dev/null
 sleep 2
-docker-compose exec -d echo sh -c "cat /tmp/echonodes-jointoken"
+docker-compose exec echo sh -c "cat /tmp/echonodes-jointoken"
 docker-compose exec -d echo sh -c "sudo -u scytale-agent /opt/scytale/bin/scytale-agent run -config /opt/scytale/conf/agent/agent.conf -joinToken \`cat /tmp/echonodes-jointoken\` "
+
+
 docker-compose exec -T echo ps -ef | grep -i agent
+docker-compose exec -T web ps -ef | grep -i agent

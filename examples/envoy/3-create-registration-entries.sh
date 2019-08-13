@@ -21,11 +21,11 @@ ECHO_AGENT_FINGERPRINT=$(fingerprint docker/se-echo-rcn/conf/agent.crt.pem)
 echo "HEY!!   don't use this.... do the entries in the console instead...."
 
 echo "make custom node-sets using these parent id's:   "
-echo "spiffe://trust.mydomainrcn.com/echonodes"
-echo "spiffe://trust.mydomainrcn.com/webnodes"
+echo "spiffe://trust01.ryan.net/echonodes"
+echo "spiffe://trust01.ryan.net/webnodes"
 
 
-echo "then, create entries for spiffe://trust.mydomainrcn.com/web-server, and spiffe://trust.mydomainrcn.com/echo-server, for uid=0"
+echo "then, create entries for spiffe://trust01.ryan.net/web-server, and spiffe://trust01.ryan.net/echo-server, for uid=0"
 exit
 
 echo "${bb}Creating registration entry for the web server...${nn}"
