@@ -40,3 +40,8 @@ tools/protoc-gen-spireplugin/protoc-gen-spireplugin
 # Editor specific configuration
 .idea
 .vscode
+docker/web/web-server
+docker/echo/echo-server
+se-server-bundle.txt
+docker/se-echo-rcn/echo-server
+echo-server
