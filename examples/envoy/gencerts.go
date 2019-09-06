@@ -37,7 +37,7 @@ func main() {
 		Subject:               pkix.Name{CommonName: "agent CA"},
 	})
 
-	writeCerts(filepath.Join("docker", "spire-server", "conf", "agent-cacert.pem"), caCert)
+	writeCerts(filepath.Join("docker", "se-server-rcn", "conf", "agent-cacert.pem"), caCert)
 
 	for _, name := range os.Args[1:] {
 		agentKey := generateRSAKey()
